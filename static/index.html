@@ -1,0 +1,77 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="icon" href="./icon.png">
+<link rel="apple-touch-icon" href="./icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>つーちチャット</title>
+</head><body>
+<script type="module">
+import { WebPush } from "./WebPush.js";
+
+window.onload = () => {
+  let uuid = WebPush.getID();
+  if (uuid) {
+    console.log(uuid);
+    btnSubscribe.disabled = true;
+    btnSubscribe.textContent = "登録済み";
+  }
+
+  btnSubscribe.onclick = async () => {
+    if (uuid) {
+      alert("登録ずみです");
+      return;
+    }
+    btnSubscribe.disabled = true;
+    btnSubscribe.textContent = "登録中...";
+    uuid = await WebPush.subscribe();
+    btnSubscribe.textContent = "登録済み";
+    alert("通知、登録しました！")
+  };
+  btnUnsubscribe.onclick = () => {
+    if (uuid) {
+      WebPush.unsubscribe();
+      uuid = null;
+    }
+  };
+  btnSend.onclick = async evt => {
+    if (!uuid) {
+      alert("発言は、通知をONにした人だけ！");
+      return;
+    }
+    const data = {
+      title: "つーちチャット",
+      body: inchat.value,
+      //timeout: 5000, // 通知を消すまでの長さ msec （デフォルト0:消さない）
+      //delay: 1000, // 表示するまでの時間 msec（デフォルト0）
+    };
+    await WebPush.push(data);
+    inchat.value = "";
+  };
+};
+</script>
+
+<h1>つーちチャット</h1>
+
+<main>
+1. iPhoneの人は「ホーム画面へ追加」<br>
+2. <button id="btnSubscribe">通知を開始</button><br>
+3. <input id="inchat"><button id="btnSend">送信</button><br>
+<br>
+<button id="btnUnsubscribe">通知を停止</button><br>
+</main>
+
+<hr>
+<a href=https://github.com/code4fukui/tsuchichat/>src on GitHub</a>
+
+<style>
+body {
+  font-family: sans-serif;
+}
+h1 {
+  font-size: 40px;
+}
+main, button, input {
+  font-size: 20px;
+}
+</style>
+
+</body>
+</html>
