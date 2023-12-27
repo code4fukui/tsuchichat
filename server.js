@@ -1,7 +1,7 @@
 import { serveAPI } from "https://js.sabae.cc/wsutil.js";
-import { UUID } from "https://code4sabae.github.io/js/UUID.js";
 import WebPush from "https://code4fukui.github.io/WebPush/WebPush.js";
 import { dir2array } from "https://js.sabae.cc/dir2array.js";
+import { UUID } from "https://code4sabae.github.io/js/UUID.js";
 
 await Deno.mkdir("data/subscription", { recursive: true });
 
@@ -9,29 +9,20 @@ const list = (await dir2array("data/subscription")).filter(i => i.endsWith(".jso
 
 serveAPI("/api/", async (param, req, path, conninfo) => {
   if (path == "/api/subscribe") {
-    try {
-      const subscription = JSON.stringify(param);
-      const uuid = UUID.generate();
-      await Deno.writeTextFile("data/subscription/" + uuid + ".json", subscription);
-      console.log("subscribe", uuid);
-      list.push(uuid);
-      return { uuid };
-    } catch (e) {
-      console.log(e);
-    }
+    const subscription = param;
+    const uuid = UUID.generate();
+    await Deno.writeTextFile("data/subscription/" + uuid + ".json", JSON.stringify(subscription));
+    console.log("subscribe", uuid);
+    list.push(uuid);
+    return { uuid };
   }
   if (path == "/api/unsubscribe") {
-    try {
-      const uuid = param.uuid;
-      console.log("unsubscribe", uuid);
-      await Deno.remove("data/subscription/" + uuid + ".json");
-
-      const n = list.indexOf(uuid);
-      if (n >= 0) list.splice(n, 1);
-      return { uuid };
-    } catch (e) {
-      console.log(e);
-    }
+    const uuid = param.uuid;
+    await Deno.remove("data/subscription/" + uuid + ".json");
+    console.log("unsubscribe", uuid);
+    const n = list.indexOf(uuid);
+    if (n >= 0) list.splice(n, 1);
+    return { uuid };
   }
   if (path == "/api/push") {
     try {
