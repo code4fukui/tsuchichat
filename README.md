@@ -22,17 +22,11 @@ deno run -A https://code4fukui.github.io/WebPush/push.js
 deno run -A server.js 
 ```
 
-## blog
-
-- https://fukuno.jig.jp/4171
-
 ## dependencies
 
 - [Deno](https://deno.land)
-- [web-push for Deno](https://github.com/code4fukui/web-push/) forked from [web-push](https://www.npmjs.com/package/web-push)
+- [WebPush](https://github.com/code4fukui/WebPush)
 
-## reference
+## blog
 
-- [ウェブプッシュ プロトコル  |  Articles  |  web.dev](https://web.dev/articles/push-notifications-web-push-protocol?hl=ja)
-- [Notification - Web APIs | MDN](https://developer.mozilla.org/en-US/docs/Web/API/notification)
-- [draft-ietf-webpush-encryption-09](https://datatracker.ietf.org/doc/html/draft-ietf-webpush-encryption)
+- https://fukuno.jig.jp/4172
