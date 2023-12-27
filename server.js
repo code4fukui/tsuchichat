@@ -25,15 +25,11 @@ serveAPI("/api/", async (param, req, path, conninfo) => {
     return { uuid };
   }
   if (path == "/api/push") {
-    try {
-      const uuid = param.uuid;
-      const data = param.data;
-      for (const l of list) {
-        if (l == uuid) continue;
-        WebPush.push(l, data);
-      }
-    } catch (e) {
-      console.log(e);
+    const uuid = param.uuid;
+    const data = param.data;
+    for (const l of list) {
+      if (l == uuid) continue;
+      WebPush.push(l, data);
     }
   }
   return { res: "err" };
