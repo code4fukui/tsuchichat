@@ -7,13 +7,7 @@
 - setup [Deno](https://deno.land/)
 
 ```sh
-mkdir data
-cat > data/mailaddress.txt
-yourmailaddress@yourdomain
-```
-
-```sh
-deno run -A https://code4fukui.github.io/WebPush/push.js
+deno run -A https://code4fukui.github.io/WebPush/init.js yourmailaddress@yourdomain
 ```
 - → data/vapidKeys.json
 - → static/vapidPublicKey.txt
