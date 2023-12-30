@@ -1,4 +1,3 @@
-data/mailaddress.txt
 data/vapidKeys.json
 static/vapidPublicKey.txt
 subscription/
